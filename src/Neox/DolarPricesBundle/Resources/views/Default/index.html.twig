@@ -1,41 +1,72 @@
 {% extends '::base.html.twig' %}
 {% block stylesheets %}
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        // Load the Visualization API and the piechart package.
+        google.load('visualization', '1', {'packages':['corechart']});
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            // Create our data table out of JSON data loaded from server.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Fecha');
+            data.addColumn('number', 'Valor');
+            data.addRows(10);
+            {% set counter = 0 %}
+            {% for pricex in pagination %}
+                data.setValue({{ counter }}, 0, '{{ pricex.datePrice }}');
+                data.setValue({{ counter }}, 1, {{ pricex.value }});
+                {% set counter = counter + 1 %}
+            {% endfor %}
+
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+            chart.draw(data, {width: 800, height: 600});
+        }
+
+    </script>
 {% endblock %}
 {% block body %}
-    <div>
-        <table>
-            <tr>
-                <td>Inicio:</td>
-
-            </tr>
-        </table>
-        <button type="button">Boton</button>
-    </div>
-    <div>
-        <table border="1">
-            <thead>
-            <tr>
-                <th colspan="2">Precios del dia uno al dos</th>
-            </tr>
-            <tr>
-                <th>Fecha</th>
-                <th>Valor</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for price in prices %}
-                <tr>
-                    <td>{{ price.id }} - {{ price.datePrice }}</td>
-                    <td>$ {{ price.value|number_format(0,',','.') }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-            <tfoot>
-            <tr>
-                <td>Promedio:</td>
-                <td>$ 2,350.00</td>
-            </tr>
-            </tfoot>
-        </table>
-    </div>
+    <table width="100%">
+        <tr>
+            <td align="center">
+                <div>
+                    <table width="900">
+                        <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Valor</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for price in pagination %}
+                            <tr>
+                                <td>{{ price.id }} - {{ price.datePrice }}</td>
+                                <td>$ {{ price.value|number_format(0,',','.') }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <div id="chart_div"></div>
+            </td>
+        </tr>
+    </table>
 {% endblock %}
