@@ -1,0 +1,4 @@
+neox_dolar_prices:
+    resource: "@NeoxDolarPricesBundle/Resources/config/routing.yml"
+    prefix:   /
+
