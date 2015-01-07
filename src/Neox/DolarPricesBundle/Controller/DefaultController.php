@@ -9,7 +9,7 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $dql = "SELECT n FROM NeoxDolarPricesBundle:Prices n";
+        $dql = "SELECT n FROM NeoxDolarPricesBundle:Prices n ORDER BY n.id";
         $query = $em->createQuery($dql);
 
         $paginator = $this->get('knp_paginator');
