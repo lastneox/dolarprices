@@ -1,0 +1,16 @@
+Neox\DolarPricesBundle\Entity\Prices:
+    type: entity
+    table: null
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        datePrice:
+            type: date
+            column: date_price
+        value:
+            type: float
+    lifecycleCallbacks: {  }

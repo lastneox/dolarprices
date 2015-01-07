@@ -1,0 +1,3 @@
+neox_dolar_prices_homepage:
+    path:     /
+    defaults: { _controller: NeoxDolarPricesBundle:Default:index }

@@ -1,0 +1,41 @@
+{% extends '::base.html.twig' %}
+{% block stylesheets %}
+{% endblock %}
+{% block body %}
+    <div>
+        <table>
+            <tr>
+                <td>Inicio:</td>
+
+            </tr>
+        </table>
+        <button type="button">Boton</button>
+    </div>
+    <div>
+        <table border="1">
+            <thead>
+            <tr>
+                <th colspan="2">Precios del dia uno al dos</th>
+            </tr>
+            <tr>
+                <th>Fecha</th>
+                <th>Valor</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for price in prices %}
+                <tr>
+                    <td>{{ price.id }} - {{ price.datePrice }}</td>
+                    <td>$ {{ price.value|number_format(0,',','.') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <td>Promedio:</td>
+                <td>$ 2,350.00</td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}
